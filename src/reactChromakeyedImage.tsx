@@ -8,6 +8,7 @@ import { getTolerantTransform } from './transforms/tolerantTransform';
 
 type Props = {
 	src: string;
+	crossOrigin?: "" | "anonymous" | "use-credentials";
 	findColor?: string;
 	replaceColor?: string;
 	tolerance?: number; 
@@ -16,7 +17,7 @@ type Props = {
 };
 
 const ReactChromakeyedImage: React.SFC<Props> = (props:Props) => {
-	const {src, findColor, replaceColor, tolerance, colorReplacementMap, replacementFunction, ...otherProps } = props;
+	const {src, crossOrigin, findColor, replaceColor, tolerance, colorReplacementMap, replacementFunction, ...otherProps } = props;
 
 	const imgRef = useRef<HTMLImageElement>(null);
 	const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -67,7 +68,7 @@ const ReactChromakeyedImage: React.SFC<Props> = (props:Props) => {
 	return (
 		<React.Fragment>
 			<div style={{display: 'none'}}>
-			<img ref={imgRef} src={src} />
+			<img ref={imgRef} src={src} {...(crossOrigin ? { crossOrigin } : {})} />
 			</div>
 			<canvas ref={canvasRef} {...otherProps} />
 		</React.Fragment>
